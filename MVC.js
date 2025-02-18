@@ -1,9 +1,9 @@
 // Modelo
 const model = {
     cars: [
-        { name: "Toyota", clicks: 0 },
-        { name: "Honda", clicks: 0 },
-        { name: "Ford", clicks: 0 }
+        { name: "Toyota", clicks: 0, stock: 10, image: "img/toyota.jpg", color: "red", year: 2020, price: 20000 },
+        { name: "Honda", clicks: 0, stock: 8, image: "img/honda.jpg", tipo: "sedan", transmicion: "manual", estado: "nuevo" },
+        { name: "Ford", clicks: 0, stock: 5, image: "img/ford.jpg", tipo: "camioneta", transmicion: "automatico", estado: "usado" },
     ],
     currentCar: null
 };
@@ -11,28 +11,30 @@ const model = {
 // Controlador
 const controller = {
     init() {
-        console.log("Inicializando la aplicación...");
         model.currentCar = model.cars[0];
         carListView.render();
         carView.render();
     },
     getCars() {
-        console.log("Obteniendo lista de coches", model.cars);
         return model.cars;
     },
     getCurrentCar() {
-        console.log("Coche actual:", model.currentCar);
         return model.currentCar;
     },
     setCurrentCar(car) {
-        console.log("Cambiando coche a:", car.name);
         model.currentCar = car;
         carView.render();
     },
     incrementClicks() {
-        model.currentCar.clicks++;
-        console.log(`${model.currentCar.name} tiene ${model.currentCar.clicks} clics`);
-        carView.render();
+        if (model.currentCar.stock > 0) {
+            model.currentCar.clicks++;
+            model.currentCar.stock--;
+            carView.render();
+            carListView.render();
+            document.getElementById("stock-message").textContent = "";
+        } else {
+            document.getElementById("stock-message").textContent = "No hay más stock disponible para " + model.currentCar.name;
+        }
     }
 };
 
@@ -43,7 +45,7 @@ const carListView = {
         carListElem.innerHTML = "";
         controller.getCars().forEach(car => {
             const button = document.createElement("button");
-            button.textContent = car.name;
+            button.textContent = `${car.name}`;
             button.onclick = () => controller.setCurrentCar(car);
             carListElem.appendChild(button);
         });
@@ -56,10 +58,11 @@ const carView = {
         const car = controller.getCurrentCar();
         document.getElementById("car-name").textContent = car.name;
         document.getElementById("car-clicks").textContent = `Clicks: ${car.clicks}`;
+        document.getElementById("car-stock").textContent = `Stock: ${car.stock}`;
+        document.getElementById("car-image").src = car.image;
         document.getElementById("car-button").onclick = controller.incrementClicks;
     }
 };
 
 // Iniciar la aplicación
 document.addEventListener("DOMContentLoaded", controller.init);
-
