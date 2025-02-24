@@ -1,4 +1,4 @@
-// Modelo
+////////////////////////////////////////////////////////////////////////////////// Modelo////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const model = {
     cars: [
         { name: "Toyota", clicks: 0, stock: 4, image: "img/toyota.jpg", price: 20000 },
@@ -7,8 +7,7 @@ const model = {
     ],
     currentCar: null
 };
-
-// Controlador
+//////////////////////////////////////////////////////////////////////////////////////////////CONTROLADOR////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const controller = {
     init() {
         model.currentCar = model.cars[0];
@@ -54,7 +53,6 @@ const controller = {
                 stockMessageElem.remove();
             }
         }
-
         // Mensaje individual para cada coche
         if (model.currentCar.stock === 0) {
             individualMessageElem.textContent = `No hay más stock disponible para ${model.currentCar.name}`;
@@ -63,7 +61,7 @@ const controller = {
         }
     }
 };
-
+//////////////////////////////////////////////////////////////////////////////////////////////VISTA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Vista de lista de coches
 const carListView = {
     render() {
@@ -88,11 +86,9 @@ const carView = {
             <button id="car-button" onclick="controller.incrementClicks()">Click</button>
             <p id="stock-message"></p> <!-- Mensaje individual de stock -->
         `;
-
         controller.checkStock(); // Verificar stock después de renderizar
     }
 };
-
 // Iniciar la aplicación
 document.addEventListener("DOMContentLoaded", controller.init);
 
