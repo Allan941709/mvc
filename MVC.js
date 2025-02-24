@@ -1,9 +1,9 @@
 // Modelo
 const model = {
     cars: [
-        { name: "Toyota", clicks: 0, stock: 10, image: "img/toyota.jpg", color: "red", year: 2020, price: 20000 },
-        { name: "Honda", clicks: 0, stock: 8, image: "img/honda.jpg", tipo: "sedan", transmicion: "manual", estado: "nuevo" },
-        { name: "Ford", clicks: 0, stock: 5, image: "img/ford.jpg", tipo: "camioneta", transmicion: "automatico", estado: "usado" },
+        { name: "Toyota", clicks: 0, stock: 4, image: "img/toyota.jpg", price: 20000 },
+        { name: "Honda", clicks: 0, stock: 3, image: "img/honda.jpg", price: 18000 },
+        { name: "Ford", clicks: 0, stock: 2, image: "img/ford.jpg", price: 25000 },
     ],
     currentCar: null
 };
@@ -31,9 +31,35 @@ const controller = {
             model.currentCar.stock--;
             carView.render();
             carListView.render();
-            document.getElementById("stock-message").textContent = "";
+            this.checkStock();
+        }
+    },
+    checkStock() {
+        const allOutOfStock = model.cars.every(car => car.stock === 0);
+        const stockMessageElem = document.getElementById("global-stock-message");
+        const individualMessageElem = document.getElementById("stock-message");
+
+        // Mensaje global si todos los coches se quedan sin stock
+        if (allOutOfStock) {
+            if (!stockMessageElem) {
+                const message = document.createElement("p");
+                message.id = "global-stock-message";
+                message.style.color = "red";
+                message.style.fontWeight = "bold";
+                message.textContent = "Todos los coches se han quedado sin stock.";
+                document.querySelector(".car-view").appendChild(message);
+            }
         } else {
-            document.getElementById("stock-message").textContent = "No hay más stock disponible para " + model.currentCar.name;
+            if (stockMessageElem) {
+                stockMessageElem.remove();
+            }
+        }
+
+        // Mensaje individual para cada coche
+        if (model.currentCar.stock === 0) {
+            individualMessageElem.textContent = `No hay más stock disponible para ${model.currentCar.name}`;
+        } else {
+            individualMessageElem.textContent = "";
         }
     }
 };
@@ -42,13 +68,11 @@ const controller = {
 const carListView = {
     render() {
         const carListElem = document.getElementById("car-list");
-        carListElem.innerHTML = "";
-        controller.getCars().forEach(car => {
-            const button = document.createElement("button");
-            button.textContent = `${car.name}`;
-            button.onclick = () => controller.setCurrentCar(car);
-            carListElem.appendChild(button);
-        });
+        carListElem.innerHTML = controller.getCars().map(car => `
+            <button onclick="controller.setCurrentCar(model.cars.find(c => c.name === '${car.name}'))">
+                ${car.name}
+            </button>
+        `).join("");
     }
 };
 
@@ -56,13 +80,19 @@ const carListView = {
 const carView = {
     render() {
         const car = controller.getCurrentCar();
-        document.getElementById("car-name").textContent = car.name;
-        document.getElementById("car-clicks").textContent = `Clicks: ${car.clicks}`;
-        document.getElementById("car-stock").textContent = `Stock: ${car.stock}`;
-        document.getElementById("car-image").src = car.image;
-        document.getElementById("car-button").onclick = controller.incrementClicks;
+        document.querySelector(".car-view").innerHTML = `
+            <h2 id="car-name">${car.name}</h2>
+            <p id="car-clicks">Clicks: ${car.clicks}</p>
+            <p id="car-stock">Stock: ${car.stock}</p>
+            <img id="car-image" class="img" src="${car.image}" alt="Imagen del coche">
+            <button id="car-button" onclick="controller.incrementClicks()">Click</button>
+            <p id="stock-message"></p> <!-- Mensaje individual de stock -->
+        `;
+
+        controller.checkStock(); // Verificar stock después de renderizar
     }
 };
 
 // Iniciar la aplicación
 document.addEventListener("DOMContentLoaded", controller.init);
+
