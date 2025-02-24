@@ -86,9 +86,8 @@ const carView = {
             <button id="car-button" onclick="controller.incrementClicks()">Click</button>
             <p id="stock-message"></p> <!-- Mensaje individual de stock -->
         `;
-        controller.checkStock(); // Verificar stock después de renderizar
+        controller.checkStock(); 
     }
 };
 // Iniciar la aplicación
 document.addEventListener("DOMContentLoaded", controller.init);
-
