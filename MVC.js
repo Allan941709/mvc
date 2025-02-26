@@ -1,93 +1,77 @@
-////////////////////////////////////////////////////////////////////////////////// Modelo////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const model = {
-    cars: [
+////////////////////////////////////////////////////////////////////////////////////////// Modelo///////////////////////////////////////////////////////////////////////////////
+const modelo = {
+    coches: [
         { name: "Toyota", clicks: 0, stock: 4, image: "img/toyota.jpg", price: 20000 },
         { name: "Honda", clicks: 0, stock: 3, image: "img/honda.jpg", price: 18000 },
         { name: "Ford", clicks: 0, stock: 2, image: "img/ford.jpg", price: 25000 },
     ],
-    currentCar: null
+    cocheActual: null // Guarda el coche actualmente seleccionado
 };
-//////////////////////////////////////////////////////////////////////////////////////////////CONTROLADOR////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const controller = {
+
+////////////////////////////////////////////////////////////////////////////////Controlador///////////////////////////////////////////////////////////////////////////////
+const controlador = {
+    // Inicializa la aplicación
     init() {
-        model.currentCar = model.cars[0];
-        carListView.render();
-        carView.render();
+        modelo.cocheActual = modelo.coches[0]; // Selecciona el primer coche por defecto
+        vista.render(); 
+        vistaCoche.render(); 
     },
-    getCars() {
-        return model.cars;
+    // Devuelve la lista de coches del modelo
+    obtenerCoches: () => modelo.coches,
+    // Devuelve el coche actualmente seleccionado
+    obtenerCocheActual: () => modelo.cocheActual,
+    // Cambia el coche seleccionado y actualiza la vista
+    seleccionCoche(car) {
+        modelo.cocheActual = car;
+        vistaCoche.render();
     },
-    getCurrentCar() {
-        return model.currentCar;
-    },
-    setCurrentCar(car) {
-        model.currentCar = car;
-        carView.render();
-    },
-    incrementClicks() {
-        if (model.currentCar.stock > 0) {
-            model.currentCar.clicks++;
-            model.currentCar.stock--;
-            carView.render();
-            carListView.render();
-            this.checkStock();
+    // Incrementa los clics en el coche actual y reduce su stock
+    incrementarCliks() {
+        if (modelo.cocheActual.stock > 0) { // Verifica que haya stock disponible
+            modelo.cocheActual.clicks++; 
+            modelo.cocheActual.stock--; 
+            vistaCoche.render(); 
+            vista.render(); 
         }
     },
-    checkStock() {
-        const allOutOfStock = model.cars.every(car => car.stock === 0);
-        const stockMessageElem = document.getElementById("global-stock-message");
-        const individualMessageElem = document.getElementById("stock-message");
-
-        // Mensaje global si todos los coches se quedan sin stock
-        if (allOutOfStock) {
-            if (!stockMessageElem) {
-                const message = document.createElement("p");
-                message.id = "global-stock-message";
-                message.style.color = "red";
-                message.style.fontWeight = "bold";
-                message.textContent = "Todos los coches se han quedado sin stock.";
-                document.querySelector(".car-view").appendChild(message);
-            }
-        } else {
-            if (stockMessageElem) {
-                stockMessageElem.remove();
-            }
-        }
-        // Mensaje individual para cada coche
-        if (model.currentCar.stock === 0) {
-            individualMessageElem.textContent = `No hay más stock disponible para ${model.currentCar.name}`;
-        } else {
-            individualMessageElem.textContent = "";
-        }
+    // Comprueba si todos los coches se han quedado sin stock
+    todoSinStock() {
+        return modelo.coches.every(car => car.stock === 0); 
     }
 };
-//////////////////////////////////////////////////////////////////////////////////////////////VISTA////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////Vista///////////////////////////////////////////////////////////////////////////////
 // Vista de lista de coches
-const carListView = {
+const vista = {
+    // Renderiza la lista de coches
     render() {
-        const carListElem = document.getElementById("car-list");
-        carListElem.innerHTML = controller.getCars().map(car => `
-            <button onclick="controller.setCurrentCar(model.cars.find(c => c.name === '${car.name}'))">
-                ${car.name}
-            </button>
-        `).join("");
+        const crearElementos = document.getElementById("car-list");
+        crearElementos.innerHTML = ""; 
+        // Recorre la lista de coches y crea un botón por cada uno
+        controlador.obtenerCoches().forEach(car => {
+            const button = document.createElement("button");
+            button.textContent = car.name; 
+            button.onclick = () => controlador.seleccionCoche(car); 
+            crearElementos.appendChild(button); 
+        });
     }
 };
-
-// Vista del carro actual
-const carView = {
+// Vista del coche actual
+const vistaCoche = {
+    // Renderiza la vista del coche seleccionado
     render() {
-        const car = controller.getCurrentCar();
-        document.querySelector(".car-view").innerHTML = `
-            <h2 id="car-name">${car.name}</h2>
-            <p id="car-clicks">Clicks: ${car.clicks}</p>
-            <p id="car-stock">Stock: ${car.stock}</p>
-            <img id="car-image" class="img" src="${car.image}" alt="Imagen del coche">
-            <button id="car-button" onclick="controller.incrementClicks()">Click</button>
-            <p id="stock-message"></p> <!-- Mensaje individual de stock -->
+        const car = controlador.obtenerCocheActual(); // Obtiene el coche seleccionado
+        const carViewElem = document.querySelector(".car-view");
+        // Muestra los detalles del coche seleccionado
+        carViewElem.innerHTML = `
+            <h2>${car.name}</h2>
+            <p>Clicks: ${car.clicks}</p>
+            <p>Stock: ${car.stock}</p>
+            <img src="${car.image}" alt="Imagen de ${car.name}">
+            <button onclick="controlador.incrementarCliks()">Click</button>           
+            <p class="mensaje" >${car.stock === 0 ? "Sin stock" : ""}</p>
+            <p class="mensaje" >${controlador.todoSinStock() ? "Todos los coches se han quedado sin stock." : ""}</p>
         `;
-        controller.checkStock(); 
     }
 };
-// Iniciar la aplicación
-document.addEventListener("DOMContentLoaded", controller.init);
+// Iniciar la aplicación cuando la página esté cargada
+document.addEventListener("DOMContentLoaded", controlador.init);
