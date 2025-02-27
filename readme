@@ -1,4 +1,3 @@
-Explicación del Código MVC - Car Clicker
 Este código implementa el patrón Modelo-Vista-Controlador 
 (MVC) en una aplicación web simple donde el usuario puede seleccionar un coche y
 hacer clic en un botón para incrementar un contador de clicks y reducir el stock del coche.
@@ -39,7 +38,7 @@ La vista se encarga de la interfaz de usuario y muestra la información de los c
 Vista de la lista de coches
 Obtiene la lista de coches.
 Crea botones con el nombre de cada coche.
-Cuando se hace clic en un botón, cambia el coche seleccionado.
+Cuando se hace clicks en un botón, cambia el coche seleccionado.
 Vista del coche seleccionado
 Muestra el nombre, la cantidad de clicks y el stock del coche seleccionado.
 Muestra la imagen del coche.
