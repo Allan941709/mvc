@@ -25,7 +25,7 @@ const controlador = {
         modelo.cocheActual = car;
         vistaCoche.render();
     },
-    // Incrementa los clics en el coche actual y reduce su stock
+    // Incrementa los clicks en el coche actual y reduce su stock
     incrementarCliks() {
         if (modelo.cocheActual.stock > 0) { // Verifica que haya stock disponible
             modelo.cocheActual.clicks++; 

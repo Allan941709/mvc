@@ -1,5 +1,7 @@
 Explicación del Código MVC - Car Clicker
-Este código implementa el patrón Modelo-Vista-Controlador (MVC) en una aplicación web simple donde el usuario puede seleccionar un coche y hacer clic en un botón para incrementar un contador de clics y reducir el stock del coche.
+Este código implementa el patrón Modelo-Vista-Controlador 
+(MVC) en una aplicación web simple donde el usuario puede seleccionar un coche y
+hacer clic en un botón para incrementar un contador de clicks y reducir el stock del coche.
 
 1. Modelo (modelo)
 El modelo almacena los datos de la aplicación. En este caso, es una lista de coches con las siguientes propiedades:
@@ -18,7 +20,7 @@ El controlador es el intermediario entre el modelo y la vista. Se encarga de:
 Inicializar la aplicación.
 Obtener la lista de coches.
 Cambiar el coche seleccionado.
-Incrementar los clics y reducir el stock.
+Incrementar los clicks y reducir el stock.
 Verificar si todos los coches están agotados.
 🔍 Funciones principales:
 ✔ init(): Inicializa la aplicación y selecciona el primer coche.
@@ -26,7 +28,7 @@ Verificar si todos los coches están agotados.
 ✔ obtenerCocheActual(): Devuelve el coche seleccionado.
 ✔ seleccionCoche(car): Cambia el coche seleccionado y actualiza la vista.
 ✔ incrementarCliks():
-    ✔ Aumenta el número de clics.
+    ✔ Aumenta el número de clicks.
     ✔ Reduce el stock.
     ✔ Actualiza la vista.
 ✔ todoSinStock(): Comprueba si todos los coches tienen stock = 0.
@@ -39,9 +41,9 @@ Obtiene la lista de coches.
 Crea botones con el nombre de cada coche.
 Cuando se hace clic en un botón, cambia el coche seleccionado.
 Vista del coche seleccionado
-Muestra el nombre, la cantidad de clics y el stock del coche seleccionado.
+Muestra el nombre, la cantidad de clicks y el stock del coche seleccionado.
 Muestra la imagen del coche.
-Agrega un botón para incrementar los clics.
+Agrega un botón para incrementar los clicks.
 Muestra un mensaje si el coche se queda sin stock.
 4. Conectar con el HTML
 Cuando la página carga, el código ejecuta init(), que selecciona el primer coche y muestra la lista de coches en pantalla.
