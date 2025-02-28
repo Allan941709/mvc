@@ -1,7 +1,3 @@
-Este código implementa el patrón Modelo-Vista-Controlador 
-(MVC) en una aplicación web simple donde el usuario puede seleccionar un coche y
-hacer clic en un botón para incrementar un contador de clicks y reducir el stock del coche.
-
 1. Modelo (modelo)
 El modelo almacena los datos de la aplicación. En este caso, es una lista de coches con las siguientes propiedades:
 
@@ -46,10 +42,3 @@ Agrega un botón para incrementar los clicks.
 Muestra un mensaje si el coche se queda sin stock.
 4. Conectar con el HTML
 Cuando la página carga, el código ejecuta init(), que selecciona el primer coche y muestra la lista de coches en pantalla.
-
-Resumen Final
-✅ Modelo: Guarda los datos de los coches y el coche seleccionado.
-✅ Controlador: Gestiona la lógica de la aplicación y actualiza la vista.
-✅ Vista: Muestra la interfaz y permite la interacción del usuario.
-
-Con este sistema, se mantiene el código bien estructurado y organizado utilizando el patrón MVC. 🚀

@@ -1,13 +1,15 @@
 ////////////////////////////////////////////////////////////////////////////////////////// Modelo///////////////////////////////////////////////////////////////////////////////
+//Inventario
 const modelo = {
     coches: [
-        { name: "Toyota", clicks: 0, stock: 4, image: "img/toyota.jpg", price: 20000 },
-        { name: "Honda", clicks: 0, stock: 3, image: "img/honda.jpg", price: 18000 },
-        { name: "Ford", clicks: 0, stock: 2, image: "img/ford.jpg", price: 25000 },
+        { name: "Toyota", clicks: 0, stock: 3, image: "img/toyota.jpg", price: 20000 },
+        { name: "Honda", clicks: 0, stock: 2, image: "img/honda.jpg", price: 18000 },
+        { name: "Ford", clicks: 0, stock: 1, image: "img/ford.jpg", price: 25000 },
     ],
 };
 
 ////////////////////////////////////////////////////////////////////////////////Controlador///////////////////////////////////////////////////////////////////////////////
+//Vendedor
 const controlador = {
     // Inicializa la aplicación
     init() {
@@ -39,13 +41,14 @@ const controlador = {
     }
 };
 ////////////////////////////////////////////////////////////////////////////////Vista///////////////////////////////////////////////////////////////////////////////
+//Tienda
 // Vista de lista de coches
 const vista = {
-    // Renderiza la lista de coches
+    // Renderiza la lista de coches 
     render() {
         const crearElementos = document.getElementById("car-list");
         crearElementos.innerHTML = ""; 
-        // Recorre la lista de coches y crea un botón por cada uno
+        // Recorre la lista de coches y crea un botón por cada uno segun el valor de name: en inventario
         controlador.obtenerCoches().forEach(car => {
             const button = document.createElement("button");
             button.textContent = car.name; 
